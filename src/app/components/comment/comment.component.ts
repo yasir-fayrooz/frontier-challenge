@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Comment, User } from 'src/app/interfaces/interfaces';
 import { UserService } from 'src/app/services/user.service';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
   selector: 'comment',
@@ -8,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./comment.component.scss'],
 })
 export class CommentComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, public dialog: MatDialog) {}
 
   user!: User;
   isEditing: boolean = false;
@@ -36,5 +38,13 @@ export class CommentComponent implements OnInit {
 
   score(num: number) {
     this.comment!.score = this.comment!.score + num;
+  }
+
+  openDialog() {
+    this.dialog.open(DialogBoxComponent, {
+      data: {
+        parentId: this.comment?.id,
+      },
+    });
   }
 }

@@ -13,9 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { DatePipe } from './pipes/datePipe';
+import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 
 @NgModule({
-  declarations: [AppComponent, CommentComponent, ReplyComponent, DatePipe],
+  declarations: [AppComponent, CommentComponent, ReplyComponent, DatePipe, DialogBoxComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

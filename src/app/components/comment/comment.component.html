@@ -63,9 +63,9 @@
     </div>
   </div>
   <!--RESPONSES TO COMMENT-->
-  <div class="row" *ngFor="let reply of comment?.replies">
+  <div class="row" *ngFor="let reply of comment?.replies; let i = index">
     <div class="col-lg-6 col-md-12 mx-auto">
-      <reply [reply]="reply" [parentId]="comment!.id"></reply>
+      <reply [reply]="reply" [parentId]="comment!.id" [index]="i"></reply>
     </div>
   </div>
 </div>
@@ -83,7 +83,7 @@
 </ng-template>
 
 <ng-template #delete>
-  <button class="ms-auto" mat-button [color]="'accent'">
+  <button class="ms-auto" mat-button [color]="'accent'" (click)="openDialog()">
     <span class="material-icons me-1 mb-1">delete</span>Delete
   </button>
 </ng-template>

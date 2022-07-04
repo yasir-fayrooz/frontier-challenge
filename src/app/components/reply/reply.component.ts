@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Reply, User } from 'src/app/interfaces/interfaces';
 import { UserService } from 'src/app/services/user.service';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
   selector: 'reply',
@@ -13,6 +14,7 @@ export class ReplyComponent implements OnInit {
 
   @Input() parentId!: number;
   @Input() reply?: Reply;
+  @Input() index!: number;
 
   user!: User;
   isEditing: boolean = false;
@@ -39,5 +41,14 @@ export class ReplyComponent implements OnInit {
 
   score(num: number) {
     this.reply!.score = this.reply!.score + num;
+  }
+
+  openDialog() {
+    this.dialog.open(DialogBoxComponent, {
+      data: {
+        parentId: this.parentId,
+        subIndex: this.index,
+      },
+    });
   }
 }

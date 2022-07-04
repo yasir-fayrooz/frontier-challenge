@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   onAddComment(textArea: HTMLTextAreaElement) {
     if (this.userService.replyingTo) {
       const reply: Reply = {
-        id: 10,
+        id: Math.floor(Math.random() * Number.MAX_VALUE) + 1,
         content: textArea.value,
         createdAt: new Date().toISOString(),
         score: 0,
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
         ?.replies.push(reply);
     } else {
       const comment: Comment = {
-        id: 10,
+        id: Math.floor(Math.random() * Number.MAX_VALUE) + 1,
         content: textArea.value,
         createdAt: new Date().toISOString(),
         score: 0,

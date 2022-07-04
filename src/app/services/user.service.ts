@@ -32,4 +32,18 @@ export class UserService {
   saveData() {
     localStorage.setItem('data', JSON.stringify(this.currentData));
   }
+
+  deleteMessage(parentId: number, subIndex: number) {
+    const commentIndex = this.data.comments.findIndex((x) => x.id === parentId);
+
+    if (commentIndex !== -1) {
+      if (subIndex !== undefined) {
+        this.currentData.comments[commentIndex].replies.splice(subIndex, 1);
+      } else {
+        this.currentData.comments.splice(commentIndex, 1);
+      }
+    }
+
+    this.saveData();
+  }
 }
