@@ -1,0 +1,21 @@
+
+.border {
+  border-radius: 6px;
+}
+
+@media (max-width: 767.98px) { 
+  #parent-container {
+    flex-direction: column;
+  }
+  #upvote {
+    flex-direction: row !important;
+    order: 2;
+    width: 100%;
+  }
+  #reply-mobile {
+    display: block !important;
+  }
+  #reply-desktop {
+    display: none;
+  }
+}

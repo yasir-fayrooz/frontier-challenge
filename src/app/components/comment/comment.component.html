@@ -1,0 +1,110 @@
+<div class="d-flex flex-column container">
+  <div class="row">
+    <div class="col-lg-6 col-md-12 mx-auto">
+      <mat-card class="border mt-4 mat-elevation-z0">
+        <div id="parent-container" class="d-flex align-items-start">
+          <!--UPVOTE SECTION-->
+          <div id="upvote" class="d-flex flex-column align-items-center me-2">
+            <button mat-icon-button [color]="'primary'" (click)="score(1)">
+              <span class="material-icons">add</span>
+            </button>
+
+            <p class="m-0 my-1 mat-body-2 primary-color">
+              {{ comment?.score }}
+            </p>
+
+            <button mat-icon-button [color]="'primary'" (click)="score(-1)">
+              <span class="material-icons">remove</span>
+            </button>
+
+            <div id="reply-mobile" class="flex-grow-1 d-none">
+              <!--REPLY BUTTON MOBILE-->
+              <button
+                *ngIf="user.username !== comment?.user?.username; else edit"
+                class="d-flex ms-auto p-0"
+                mat-button
+                [color]="'primary'"
+                (click)="onReplyTo(comment!.id, comment!.user!.username)"
+              >
+                <span class="material-icons">reply</span>Reply
+              </button>
+            </div>
+          </div>
+
+          <div class="flex-grow-1">
+            <div class="d-flex">
+              <!--NAME AVATAR SECTION-->
+              <img mat-card-avatar [src]="comment?.user?.image?.png" />
+              <p class="ms-3 my-auto">{{ comment?.user?.username }}</p>
+              <mat-card-subtitle class="my-auto ms-3">{{
+                comment!.createdAt | datePipe
+              }}</mat-card-subtitle>
+
+              <!--REPLY BUTTON-->
+              <button
+                id="reply-desktop"
+                *ngIf="user.username !== comment?.user?.username; else edit"
+                class="ms-auto p-0"
+                mat-button
+                [color]="'primary'"
+                (click)="onReplyTo(comment!.id, comment!.user!.username)"
+              >
+                <span class="material-icons">reply</span>Reply
+              </button>
+            </div>
+
+            <!--COMMENT TEXT-->
+            <h4 *ngIf="!isEditing; else editingComment" class="mt-3">
+              {{ comment?.content }}
+            </h4>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <!--RESPONSES TO COMMENT-->
+  <div class="row" *ngFor="let reply of comment?.replies">
+    <div class="col-lg-6 col-md-12 mx-auto">
+      <reply [reply]="reply" [parentId]="comment!.id"></reply>
+    </div>
+  </div>
+</div>
+
+<ng-template #edit>
+  <button
+    *ngIf="!isEditing; else delete"
+    class="ms-auto"
+    mat-button
+    [color]="'warn'"
+    (click)="isEditing = true"
+  >
+    <span class="material-icons me-1 mb-1">edit</span>Edit
+  </button>
+</ng-template>
+
+<ng-template #delete>
+  <button class="ms-auto" mat-button [color]="'accent'">
+    <span class="material-icons me-1 mb-1">delete</span>Delete
+  </button>
+</ng-template>
+
+<ng-template #editingComment>
+  <div class="d-flex align-items-start">
+    <textarea
+      class="mt-3 me-2"
+      style="resize: none; height: 80px"
+      matInput
+      [value]="comment?.content"
+      #commentEdit
+    >
+    </textarea>
+    <button
+      class="mt-auto"
+      mat-raised-button
+      [color]="'primary'"
+      (click)="onSaveComment(commentEdit)"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>

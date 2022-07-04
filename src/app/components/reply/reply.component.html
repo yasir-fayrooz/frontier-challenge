@@ -1,0 +1,101 @@
+<div class="d-flex">
+  <mat-divider class="mx-4 mt-2 primary-color" [vertical]="true"></mat-divider>
+  <mat-card class="border mt-4 mat-elevation-z0 w-100">
+    <div id="parent-container" class="d-flex">
+      <!--UPVOTE SECTION-->
+      <div id="upvote" class="d-flex flex-column align-items-center me-2">
+        <button mat-icon-button [color]="'primary'" (click)="score(1)">
+          <span class="material-icons">add</span>
+        </button>
+
+        <p class="m-0 my-1 mat-body-2 primary-color">
+          {{ reply?.score }}
+        </p>
+
+        <button mat-icon-button [color]="'primary'" (click)="score(-1)">
+          <span class="material-icons">remove</span>
+        </button>
+
+        <div id="reply-mobile" class="flex-grow-1 d-none">
+          <!--REPLY BUTTON MOBILE-->
+          <button
+            *ngIf="user.username !== reply?.user?.username; else edit"
+            class="d-flex ms-auto p-0"
+            mat-button
+            [color]="'primary'"
+            (click)="onReplyTo(reply!.user!.username)"
+          >
+            <span class="material-icons">reply</span>Reply
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-grow-1">
+        <div class="d-flex">
+          <!--NAME AVATAR SECTION-->
+          <img mat-card-avatar [src]="reply?.user?.image?.png" />
+          <p class="ms-3 my-auto">{{ reply?.user?.username }}</p>
+          <mat-card-subtitle class="my-auto ms-3">{{
+            reply!.createdAt | datePipe
+          }}</mat-card-subtitle>
+
+          <!--REPLY BUTTON-->
+          <button
+            id="reply-desktop"
+            *ngIf="user.username !== reply?.user?.username; else edit"
+            (click)="onReplyTo(reply!.user!.username)"
+            class="ms-auto"
+            mat-button
+            [color]="'primary'"
+          >
+            <span class="material-icons me-1 mb-1">reply</span>Reply
+          </button>
+        </div>
+        <!--COMMENT TEXT-->
+        <h4 class="mt-3" *ngIf="!isEditing; else editingReply">
+          <span class="primary-color">@{{ reply?.replyingTo }} </span
+          >{{ reply?.content }}
+        </h4>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<ng-template #edit>
+  <button
+    *ngIf="!isEditing; else delete"
+    class="ms-auto"
+    mat-button
+    [color]="'warn'"
+    (click)="isEditing = true"
+  >
+    <span class="material-icons me-1 mb-1">edit</span>Edit
+  </button>
+</ng-template>
+
+<ng-template #delete>
+  <button class="ms-auto" mat-button [color]="'accent'">
+    <span class="material-icons me-1 mb-1">delete</span>Delete
+  </button>
+</ng-template>
+
+<ng-template #editingReply>
+  <div class="d-flex align-items-start">
+    <textarea
+      class="mt-3 me-2"
+      style="resize: none; height: 80px"
+      matInput
+      [value]="reply?.content"
+      #replyEdit
+    >
+    </textarea>
+    <button
+      class="mt-auto"
+      mat-raised-button
+      [color]="'primary'"
+      (click)="onSaveReply(replyEdit)"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
